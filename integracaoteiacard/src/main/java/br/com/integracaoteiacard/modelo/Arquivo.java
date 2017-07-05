@@ -8,23 +8,23 @@ import java.util.List;
  * @author Bonifácio
  */
 public class Arquivo {
-    
-    private List<Campo> campos;
 
-    public Arquivo(Campo... campos) {
-        this.campos = new ArrayList<>();
-        for (Campo campo : campos) {
-            this.campos.add(campo);
+    private List<Linha> linhas;
+
+    public Arquivo(Linha... linhas) {
+        this.linhas = new ArrayList<>();
+        for (Linha linha : linhas) {
+            this.linhas.add(linha);
         }
-    }    
-    
+    }
+
     @Override
     public String toString() {
         String retorno = "";
-        for (Campo campo : this.campos) {
-            retorno += campo.toString();
+        for (Linha linha : this.linhas) {
+            retorno += linha.toString();
         }
         return retorno;
     }
-    
+
 }

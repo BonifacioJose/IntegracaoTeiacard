@@ -61,12 +61,16 @@ public class Campo {
             calendar.setTime(data);
             switch (tipoCampoDate) {
                 case DATE:
-            return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))
-                    + String.valueOf(calendar.get(Calendar.MONTH) + 1)
+                    int dia = calendar.get(Calendar.DAY_OF_MONTH);
+                    int mes = calendar.get(Calendar.MONTH) + 1;
+            return String.valueOf(dia < 10 ? "0".concat(String.valueOf(dia)) : dia)
+                    + String.valueOf(mes < 10 ? "0".concat(String.valueOf(mes)) : mes)
                     + String.valueOf(calendar.get(Calendar.YEAR));                
-                case TIMESTAMP:                    
-            return String.valueOf(calendar.get(Calendar.HOUR_OF_DAY))
-                    + String.valueOf(calendar.get(Calendar.MINUTE))
+                case TIMESTAMP:    
+                    int hora = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minuto = calendar.get(Calendar.MINUTE);                
+            return String.valueOf(hora < 10 ? "0".concat(String.valueOf(hora)) : hora)
+                    + String.valueOf(minuto < 10 ? "0".concat(String.valueOf(minuto)) : minuto)
                     + String.valueOf(calendar.get(Calendar.SECOND));
             }
         }
@@ -75,6 +79,9 @@ public class Campo {
     
     private String getValorNormalizado(String valor) {
         String novoValor = "";
+        if (valor == null) {
+            valor = "";
+        }
         switch (formato) {
             case ALFANUMERICO:
                 for (int i = 0; i < (tamanho - valor.length()); i++) {
@@ -83,7 +90,7 @@ public class Campo {
                 valor = valor + novoValor;
                 break;
             case NUMERICO:
-                for (int i = 0; i < (tamanho - numeroDecimais - valor.length()); i++) {
+                for (int i = 0; i < (tamanho - valor.length()); i++) {
                     novoValor += "0";
                 }
                 valor = novoValor + valor;
