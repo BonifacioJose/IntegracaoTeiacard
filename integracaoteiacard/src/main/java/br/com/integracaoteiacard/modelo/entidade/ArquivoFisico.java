@@ -1,15 +1,15 @@
-package br.com.integracaoteiacard.modelo;
+package br.com.integracaoteiacard.modelo.entidade;
 
 /**
  *
  * @author José
  */
-public class ArquivoTeste {
+public class ArquivoFisico {
     
     private String nome;
     private Arquivo arquivo;
 
-    public ArquivoTeste(String nome, Arquivo arquivo) {
+    public ArquivoFisico(String nome, Arquivo arquivo) {
         this.nome = nome;
         this.arquivo = arquivo;
     }

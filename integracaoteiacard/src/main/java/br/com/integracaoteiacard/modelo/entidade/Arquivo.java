@@ -1,4 +1,4 @@
-package br.com.integracaoteiacard.modelo;
+package br.com.integracaoteiacard.modelo.entidade;
 
 import java.util.ArrayList;
 import java.util.List;

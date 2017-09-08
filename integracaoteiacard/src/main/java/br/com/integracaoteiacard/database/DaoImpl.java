@@ -11,8 +11,8 @@ import java.util.List;
  *
  * @author José
  */
-public class DaoImpl <T extends DatabaseEntity> implements Dao<T>  {
-    
+public class DaoImpl<T extends DatabaseEntity> implements Dao<T> {
+
     private final Connection conexao;
     private PreparedStatement ps;
     private ResultSet rs;
@@ -40,17 +40,21 @@ public class DaoImpl <T extends DatabaseEntity> implements Dao<T>  {
     }
 
     @Override
-    public <T extends DatabaseEntity> T salvarComRetorno(T t) throws SQLException { 
+    public <T extends DatabaseEntity> T salvarComRetorno(T t) throws SQLException {
         if (t.isNovo()) {
             ps = conexao.prepareStatement(insertSql);
             prepararInsert(t);
         } else {
             ps = conexao.prepareStatement(updateSql);
             prepararUpdate(t);
-            return t;
         }
-        String id = String.valueOf(ps.executeUpdate());
-        return buscarPorId(Long.valueOf(id));
+        ps.execute();
+        ps.getResultSet();
+        rs = ps.getResultSet();
+        if (rs.next()) {
+            return buscarPorId(rs.getLong("id"));
+        }
+        return null;
     }
 
     @Override
@@ -79,17 +83,16 @@ public class DaoImpl <T extends DatabaseEntity> implements Dao<T>  {
         }
         return lista;
     }
-    
-    
+
     @Override
     public <T extends DatabaseEntity> ResultSet buscar(String sql) throws SQLException {
         ps = conexao.prepareStatement(sql);
         rs = ps.executeQuery();
-        return rs;  
-    }  
+        return rs;
+    }
 
     @Override
-    public void fecharPonteiros() { 
+    public void fecharPonteiros() {
         try {
             if (rs != null) {
                 rs.close();
@@ -97,7 +100,7 @@ public class DaoImpl <T extends DatabaseEntity> implements Dao<T>  {
             if (ps != null) {
                 ps.close();
             }
-        } catch (SQLException ex) {            
+        } catch (SQLException ex) {
         }
     }
 
@@ -113,14 +116,14 @@ public class DaoImpl <T extends DatabaseEntity> implements Dao<T>  {
             if (conexao != null) {
                 conexao.close();
             }
-        } catch (SQLException ex) {            
+        } catch (SQLException ex) {
         }
     }
-    
+
     public PreparedStatement getPs() {
         return this.ps;
     }
-    
+
     public ResultSet getRs() {
         return this.rs;
     }
